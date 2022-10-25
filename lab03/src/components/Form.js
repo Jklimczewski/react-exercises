@@ -1,15 +1,23 @@
 import Item from "./Item";
 import Data from "./Data";
+import Messeges from "./Messeges";
 import { useState } from "react";
 
-const Form = () => {
+const Form = (props) => {
     const [toDo, setToDo] = useState("")
-    const [date, setDate] = useState("")
+    const [toDoDate, setDate] = useState("")
+    const [msg, setMsg] = useState("")
+
+    const handleAddTodo = () => {
+        props.addToDo(toDo)
+        console.log(msg)
+    }
     return (
         <div>
-            <Item/>
-            <Data/>
-            <button>OK</button>
+            <Item shareSetToDo={setToDo}/>
+            <Data shareSetDate={setDate}/>
+            <button onClick={handleAddTodo}>Send</button>
+            <Messeges shareSetMsg={setMsg}/>
         </div>
     )
 };

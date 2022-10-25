@@ -1,8 +1,13 @@
-const Item = () => {
+const Item = (props) => {
+
+    const handlerToDo = (event) => {
+        props.shareSetToDo(event.target.value)
+    }
+
     return (
         <div>
             Podaj zadania:
-            <input type='text'></input>
+            <input type='text' onChange={handlerToDo}></input>
         </div>
     )
 };

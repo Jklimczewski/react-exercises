@@ -1,10 +1,17 @@
+import { useState } from "react";
 import Form from "./Form";
 
 const App = () => {
-    return (
+    const [todos, setTodos] = useState([])
+
+     return (
         <div>
-            <h1>Zadania:</h1>
-            <Form/>
+            <div>Zadania:</div>
+            <div>
+                {/* {todos.map(item => (<div>{item}</div>))} */}
+                {todos}
+            </div>
+            <Form addToDo={setTodos}/>
         </div>
         
     )
