@@ -7,7 +7,7 @@ const Item = (props) => {
     return (
         <div>
             Podaj zadania:
-            <input type='text' onChange={handlerToDo}></input>
+            <input type='text' value={props.shareToDo} onChange={handlerToDo}></input>
         </div>
     )
 };

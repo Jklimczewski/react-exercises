@@ -7,11 +7,10 @@ const App = () => {
      return (
         <div>
             <div>Zadania:</div>
-            <div>
-                {/* {todos.map(item => (<div>{item}</div>))} */}
-                {todos}
-            </div>
-            <Form addToDo={setTodos}/>
+            <ul>
+                {todos.map(item => (<li>{item}</li>))}
+            </ul>
+            <Form addToDo={setTodos} currentTodos={todos}/>
         </div>
         
     )

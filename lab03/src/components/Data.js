@@ -6,7 +6,7 @@ const Data = (props) => {
     return (
         <div>
             Podaj datę:
-            <input type='date' onChange={handlerDate}></input>
+            <input type='date' value={props.shareDate} onChange={handlerDate}></input>
         </div>
     )
 };
