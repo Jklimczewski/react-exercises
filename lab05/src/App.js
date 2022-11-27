@@ -1,6 +1,15 @@
-function App() {
+import { useState } from 'react';
+import CommentForm from './CommentForm';
+import CommentsList from './CommentsList';
+
+const App = () => {
+  const [addedComments, setAddedComments] = useState([]);
   return (
-    <div></div>
+    <div>
+      <CommentForm setAddedComments={setAddedComments}/>
+      <CommentsList addedComments={addedComments}/>
+    </div>
+    
   )
 }
 
