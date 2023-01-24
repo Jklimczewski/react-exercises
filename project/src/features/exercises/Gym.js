@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Gym = () => {
-  let exercises = useSelector(state => state.exercise.allEx);
-  let exercises2 = [...exercises]
+  const exercises = useSelector(state => state.exercise.allEx);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [sortShow, setSortShow] = useState(false);
+  const [sorted, setSorted] = useState([]);
+  const [clicks, setClicks] = useState(0);
 
   useEffect(()=> {
     if (exercises.length === 0) {
@@ -24,22 +25,34 @@ const Gym = () => {
 
   const handleShowSort = () => {
     setSortShow(!sortShow)
+    setSorted([...exercises]);
   }
-  let clicks = 0;
   const handleSortAlp = () => {
-    if (clicks % 2 === 0) exercises2.sort((a,b) => (a.exercise > b.exercise) ? -1 : ((b.exercise > a.exercise) ? 1 : 0 ))
-    else exercises2.sort((a,b) => (a.exercise > b.exercise) ? 1 : ((b.exercise > a.exercise) ? -1 : 0 ))
-    clicks += 1;
+    if (clicks % 2 === 0) {
+      setSorted([...sorted.sort((a,b) => (a.exercise > b.exercise) ? 1 : ((b.exercise > a.exercise) ? -1 : 0 ))])
+    }
+    else {
+      setSorted([...sorted.sort((a,b) => (a.exercise < b.exercise) ? 1 : ((b.exercise < a.exercise) ? -1 : 0 ))])
+    }
+    setClicks(clicks => clicks += 1)
   }
   const handleSortDates = () => {
-    if (clicks % 2 === 0) exercises.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0 ))
-    else exercises.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0 ))
-    clicks += 1;
+    if (clicks % 2 === 0) {
+      setSorted([...sorted.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0 ))])
+    }
+    else {
+      setSorted([...sorted.sort((a,b) => (a.date < b.date) ? 1 : ((b.date < a.date) ? -1 : 0 ))])
+    }
+    setClicks(clicks => clicks += 1)
   }
   const handleSortWeight = () => {
-    if (clicks % 2 === 0) exercises.sort((a,b) => (a.weight > b.weight) ? -1 : ((b.weight > a.weight) ? 1 : 0 ))
-    else exercises.sort((a,b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0 ))
-    clicks += 1;
+    if (clicks % 2 === 0) {
+      setSorted([...sorted.sort((a,b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0 ))])
+    }
+    else {
+      setSorted([...sorted.sort((a,b) => (a.weight < b.weight) ? 1 : ((b.weight < a.weight) ? -1 : 0 ))])
+    }
+    setClicks(clicks => clicks += 1)
   }
 
   const handleClick = (ex) => {
@@ -48,13 +61,23 @@ const Gym = () => {
     navigate(`/gym/${ex.id}`);
   }
   
-  if (sortShow) return (
+  if (sorted.length !== 0 && sortShow) return (
+    <>
+        <ul>
+          {sorted.map(ex => (<li key={ex.id} onClick={() => handleClick(ex)}>{ex.exercise}</li>))}
+        </ul>
+        <Link to='/gym/add'><button>Add</button></Link>
+        <button onClick={handleShowSort}>Sort</button>
+        <br></br>
+        <button onClick={handleSortAlp}>Alphabetical</button>
+        <button onClick={handleSortDates}>Dates</button>
+        <button onClick={handleSortWeight}>Weight</button>
+    </>
+  )
+  else if (sortShow) return (
     <>
         <ul>
           {exercises.map(ex => (<li key={ex.id} onClick={() => handleClick(ex)}>{ex.exercise}</li>))}
-        </ul>
-        <ul>
-          {exercises2.map(ex => (<li key={ex.id} onClick={() => handleClick(ex)}>{ex.exercise}</li>))}
         </ul>
         <Link to='/gym/add'><button>Add</button></Link>
         <button onClick={handleShowSort}>Sort</button>
