@@ -3,6 +3,15 @@ const dbo = require("../db/conn");
 
 const router = express.Router();
 
+router.get('/exercises/:name', (req, response) => {
+  let db_connect = dbo.getDb();
+  const myquery = { exercise: req.params.name };
+  db_connect.collection("Images").findOne(myquery, function(err, res) {
+    if (err) throw err;
+    response.status(201).send(res);
+  })
+})
+
 router.get('/exercises', async (req, response) => {
   let db_connect = dbo.getDb();
   const cursor = await db_connect.collection("exercises").find({});

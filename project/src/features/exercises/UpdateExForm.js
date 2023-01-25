@@ -5,6 +5,18 @@ import { updateSingleEx } from './exercisesSlice';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useState } from 'react';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+
+const StyledDiv = styled("div")`
+  background-color: #bbf3fa;
+  width: 60%;
+  height: 100px;
+  text-align: center;
+  margin: 150px auto;
+  padding: 10px 0 80px 0;
+  font-size: 25px;
+`;
 
 const UpdateExForm = () => {
     const navigate = useNavigate();
@@ -13,7 +25,7 @@ const UpdateExForm = () => {
     const [update, setUpdate] = useState("");
 
     return (
-    <>
+    <StyledDiv>
         <Formik
           initialValues={{ exercise: '', weight: ''}}
           validationSchema={Yup.object({
@@ -40,21 +52,21 @@ const UpdateExForm = () => {
           }}
         >
           <Form>
-            <label htmlFor="exercise">Exercise</label>
+            <label htmlFor="exercise">Exercise </label>
             <Field name="exercise" type="text" />
             <div><ErrorMessage name="exercise" /></div>
     
-            <label htmlFor="weight">Weight</label>
+            <label htmlFor="weight">Weight </label>
             <Field name="weight" type="text" />
             <div><ErrorMessage name="weight" /></div>
 
             <p></p>
-            <button type="submit">Submit</button>
-            <button type='reset'>Reset</button>
+            <Button type="submit">Submit</Button>
+            <Button type='reset'>Reset</Button>
           </Form>
         </Formik>
         {update}
-    </>
+    </StyledDiv>
     )
 }
 

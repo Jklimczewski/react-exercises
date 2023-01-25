@@ -5,6 +5,18 @@ import { updateSingleNote } from './notesSlice';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import axios from 'axios';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+
+const StyledDiv = styled("div")`
+  background-color: #d8e8e8;
+  width: 80%;
+  height: 100px;
+  text-align: center;
+  margin: 100px auto;
+  padding: 10px 0 80px 0;
+  font-size: 25px;
+`;
 
 const UpdateNoteForm = (props) => {
     const navigate = useNavigate();
@@ -14,7 +26,7 @@ const UpdateNoteForm = (props) => {
     const [update, setUpdate] = useState("");
 
     return (
-    <>
+    <StyledDiv>
         <Formik
           initialValues={{ body: '', data: ''}}
           validationSchema={Yup.object({
@@ -37,21 +49,21 @@ const UpdateNoteForm = (props) => {
           }}
         >
           <Form>
-            <label htmlFor="body">Body</label>
+            <label htmlFor="body">Body </label>
             <Field name="body" type="text" />
             <div><ErrorMessage name="body" /></div>
     
-            <label htmlFor="data">Data</label>
+            <label htmlFor="data">Data </label>
             <Field name="data" type="date" />
             <div><ErrorMessage name="data" /></div>
 
             <p></p>
-            <button type="submit">Submit</button>
-            <button type='reset'>Reset</button>
+            <Button type="submit">Submit</Button>
+            <Button type='reset'>Reset</Button>
           </Form>
         </Formik>
         {update}
-    </>
+    </StyledDiv>
     )
 }
 

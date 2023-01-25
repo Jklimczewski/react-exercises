@@ -3,6 +3,28 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCurrNoteShowingUp, addNote } from './notesSlice';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Button from '@mui/material/Button';
+import Switch from '@mui/material/Switch';
+import { styled } from '@mui/material/styles';
+const label = { inputProps: { 'aria-label': 'Sort' } };
+
+const StyledDiv = styled("div")`
+  background-color: #d8e8e8;
+  width: 30%;
+  text-align: center;
+  margin: 100px auto;
+  border-radius: 30px;
+  padding: 5px 80px;
+  font-size: 25px;
+`;
+const StyledSpan = styled("span")`
+  font-size: 17px;
+`;
+const StyledImage = styled("div")`
+  position: absolute;
+  top: 50%;
+  left: 10%;
+`;
 
 const Notes = () => {
   const navigate = useNavigate();
@@ -12,8 +34,8 @@ const Notes = () => {
   const [sortShow, setSortShow] = useState(false);
   const [sorted, setSorted] = useState([]);
   const [clicks, setClicks] = useState(0);
+  const [image, setImage] = useState("");
 
-  
   useEffect(()=> {
     if (notes.length === 0) {
       axios.get("http://localhost:5000/notes").then(res => {
@@ -23,6 +45,11 @@ const Notes = () => {
       })
       .catch(err => console.log(err))
     }
+    axios.get(`http://localhost:5000/exercises/notes`)
+            .then(res => {
+                if (res.data.url) setImage(res.data.url)
+            })
+            .catch(err => console.log(err))
   });
 
   const handleShowSort = () => {
@@ -64,39 +91,33 @@ const Notes = () => {
   }
 
   if (sorted.length !== 0 && sortShow) return (
-    <>
+    <StyledDiv>
+        <StyledImage>
+            <img src={image} alt="" width="400" height="auto"></img>
+        </StyledImage>
         <ul>
           {sorted.map(note => note.exId === currEx.id ? (<li key={note.id} onClick={() => handleClick(note)}>{note.data}</li>) : null )}
         </ul>
-        <Link to={`/gym/${currEx.id}/notes/add`}><button>AddNote</button></Link>
-        <button onClick={handleShowSort}>Sort</button>
+        <Link to={`/gym/${currEx.id}/notes/add`}><Button variant="contained" size="small">AddNote</Button></Link>
+        <Switch onChange={handleShowSort} {...label} />
         <br></br>
-        <button onClick={handleSortAlp}>Alphabetical</button>
-        <button onClick={handleSortDates}>Dates</button>
-        <button onClick={handleSortId}>ID</button>
-    </>
-  )
-  else if (sortShow) return (
-    <>
-        <ul>
-          {notes.map(note => note.exId === currEx.id ? (<li key={note.id} onClick={() => handleClick(note)}>{note.data}</li>) : null )}
-        </ul>
-        <Link to={`/gym/${currEx.id}/notes/add`}><button>AddNote</button></Link>
-        <button onClick={handleShowSort}>Sort</button>
-        <br></br>
-        <button onClick={handleSortAlp}>Alphabetical</button>
-        <button onClick={handleSortDates}>Dates</button>
-        <button onClick={handleSortId}>ID</button>
-    </>
+        <Button variant="outlined" size="small" onClick={handleSortAlp}>Alphabetical</Button>
+        <Button variant="outlined" size="small" onClick={handleSortDates}>Dates</Button>
+        <Button variant="outlined" size="small" onClick={handleSortId}>ID</Button>
+    </StyledDiv>
   )
   else return (
-    <>
+    <StyledDiv>
+        <StyledImage>
+            <img src={image} alt="" width="400" height="auto"></img>
+        </StyledImage>
         <ul>
           {notes.map(note => note.exId === currEx.id ? (<li key={note.id} onClick={() => handleClick(note)}>{note.data}</li>) : null )}
         </ul>
-        <Link to={`/gym/${currEx.id}/notes/add`}><button>AddNote</button></Link>
-        <button onClick={handleShowSort}>Sort</button>
-    </>
+        <Link to={`/gym/${currEx.id}/notes/add`}><Button variant="contained" size="small">AddNote</Button></Link>
+        <Switch onChange={handleShowSort} {...label} />
+        <StyledSpan>Press if you want to sort</StyledSpan>
+    </StyledDiv>
   )
 }
 

@@ -3,6 +3,31 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCurrExShowingUp, addEx } from './exercisesSlice';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Button from '@mui/material/Button';
+import Switch from '@mui/material/Switch';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import { styled } from '@mui/material/styles';
+const label = { inputProps: { 'aria-label': 'Sort' } };
+
+const StyledDiv = styled("div")`
+  background-color: #bbf3fa;
+  width: 30%;
+  text-align: center;
+  margin: 100px auto;
+  border-radius: 30px;
+  padding: 5px;
+  font-size: 25px;
+`;
+const StyledDiv2 = styled("div")`
+  text-align: center;
+  margin-bottom: 5px;
+  width: 50%;
+  margin: 0 auto;
+`;
+const StyledSpan = styled("span")`
+  font-size: 20px;
+`;
 
 const Gym = () => {
   const exercises = useSelector(state => state.exercise.allEx);
@@ -62,39 +87,31 @@ const Gym = () => {
   }
   
   if (sorted.length !== 0 && sortShow) return (
-    <>
-        <ul>
-          {sorted.map(ex => (<li key={ex.id} onClick={() => handleClick(ex)}>{ex.exercise}</li>))}
-        </ul>
-        <Link to='/gym/add'><button>Add</button></Link>
-        <button onClick={handleShowSort}>Sort</button>
-        <br></br>
-        <button onClick={handleSortAlp}>Alphabetical</button>
-        <button onClick={handleSortDates}>Dates</button>
-        <button onClick={handleSortWeight}>Weight</button>
-    </>
-  )
-  else if (sortShow) return (
-    <>
-        <ul>
-          {exercises.map(ex => (<li key={ex.id} onClick={() => handleClick(ex)}>{ex.exercise}</li>))}
-        </ul>
-        <Link to='/gym/add'><button>Add</button></Link>
-        <button onClick={handleShowSort}>Sort</button>
-        <br></br>
-        <button onClick={handleSortAlp}>Alphabetical</button>
-        <button onClick={handleSortDates}>Dates</button>
-        <button onClick={handleSortWeight}>Weight</button>
-    </>
+    <StyledDiv>
+      <StyledDiv2>
+        <List>
+          {sorted.map(ex => (<ListItem key={ex.id} onClick={() => handleClick(ex)}>{ex.exercise}</ListItem>))}
+        </List>
+      </StyledDiv2>
+      <Link to='/gym/add'><Button variant="contained" size="small">Add</Button></Link>
+      <Switch onChange={handleShowSort} {...label} />
+      <br></br>
+      <Button variant="outlined" size="small" onClick={handleSortAlp}>Alphabetical</Button>
+      <Button variant="outlined" size="small" onClick={handleSortDates}>Dates</Button>
+      <Button variant="outlined" size="small" onClick={handleSortWeight}>Weight</Button>
+    </StyledDiv>
   )
   else return (
-    <>
-        <ul>
-          {exercises.map(ex => (<li key={ex.id} onClick={() => handleClick(ex)}>{ex.exercise}</li>))}
-        </ul>
-        <Link to='/gym/add'><button>Add</button></Link>
-        <button onClick={handleShowSort}>Sort</button>
-    </>
+    <StyledDiv>
+      <StyledDiv2>
+        <List>
+          {exercises.map(ex => (<ListItem key={ex.id} onClick={() => handleClick(ex)}>{ex.exercise}</ListItem>))}
+        </List>
+      </StyledDiv2>
+      <Link to='/gym/add'><Button variant="contained" size="small">Add</Button></Link>
+      <Switch onChange={handleShowSort} {...label} />
+      <StyledSpan>Press if you want to sort</StyledSpan>
+    </StyledDiv>
   )
 }
 
